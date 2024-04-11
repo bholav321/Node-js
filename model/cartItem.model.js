@@ -8,7 +8,7 @@ export const cartItem = sequelize.define("cartItem", {
         primaryKey:true,
         autoIncrement:true
     },
-    Quantity:{
+    quantity:{
         type:DataTypes.INTEGER,
         allowNull:false, 
         defaultValue:1

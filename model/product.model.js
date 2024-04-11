@@ -2,6 +2,10 @@ import { DataTypes } from "sequelize";
 import sequelize from "../Connection/db.js";
 import { cartItem } from "./cartItem.model.js";
 import Cart from "./Cart.model.js";
+import { User } from "./user.model.js";
+import Wishlist from "./wishlist.model.js";
+import Review from "./review.model.js";
+
 export const product = sequelize.define("product",{
     id:{
         type:DataTypes.INTEGER,
@@ -9,24 +13,22 @@ export const product = sequelize.define("product",{
         primaryKey:true
     },
     title:{
-        type:DataTypes.STRING,  
-        unique:true,
+        type:DataTypes.STRING(500),  
         allowNull:false
     },
     description:{
-        type:DataTypes.STRING,
-        unique:true,
+        type:DataTypes.STRING(1000),
         allowNull:false
     },
     price:{
-        type:DataTypes.FLOAT,
+        type:DataTypes.INTEGER,
         allowNull:false
     },
     discountPercentage:{
         type:DataTypes.FLOAT,
     },
     stock:{
-        type:DataTypes.STRING,
+        type:DataTypes.INTEGER,
     },
     brand:{
         type:DataTypes.STRING,
@@ -45,7 +47,7 @@ export const product = sequelize.define("product",{
         type:DataTypes.STRING,
     },
     images:{
-        type:DataTypes.STRING(1000)
+        type:DataTypes.STRING(2000)
     }
 },{
     timestamps:false
@@ -69,3 +71,9 @@ cartItem.belongsTo(product,{
 })
 Cart.belongsToMany(product,{through:cartItem})
 product.belongsToMany(Cart,{through:cartItem})
+
+User.belongsToMany(product,{through:Wishlist});
+product.belongsToMany(User,{through:Wishlist});
+
+User.belongsToMany(product,{through:Review});
+product.belongsToMany(User,{through:Review});

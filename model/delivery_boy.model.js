@@ -14,7 +14,6 @@ export const deliveryBoy = sequelize.define("deliveryBoy",{
     },
     email:{
         type:DataTypes.STRING,
-        unique:true,
         allowNull:false
     },
     password:{ 
@@ -28,9 +27,15 @@ export const deliveryBoy = sequelize.define("deliveryBoy",{
     },
     contact:{
         type:DataTypes.STRING(10),
-        unique:true,
         allowNull:false
     }
+},{
+    indexes: [
+        {
+            unique: true,
+            fields: ['contact', 'email']
+        }
+    ]
 },{  
     timestamps:true, 
 }) 

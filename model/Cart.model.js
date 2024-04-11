@@ -11,7 +11,7 @@ const Cart = sequelize.define("cart",{
         type:DataTypes.INTEGER,
         foreignKey :true
     },
-   
+    
 } ,{
     timestamps:true,
     timezone:'+05:30'

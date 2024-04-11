@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("testsequelize","root","root",{
+const sequelize = new Sequelize("giftgallery","root","root",{
     host:'localhost',
     dialect:'mysql',
     timezone:'+05:30'

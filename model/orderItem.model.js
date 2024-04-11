@@ -1,8 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../Connection/db.js";
 import { product } from "./product.model.js";
-import { Order } from "./order.model.js";
-
 export const orderItem = sequelize.define("orderItem",{
     id:{
         type:DataTypes.INTEGER,
@@ -18,18 +16,9 @@ export const orderItem = sequelize.define("orderItem",{
             key:'id'
         }
     }, 
-    Quantity:{
+    quantity:{
         type:DataTypes.INTEGER,
         allowNull:false
-    },
-    orderId:{
-        type:DataTypes.INTEGER,
-        foreignKey:true,
-        allowNull:false,
-        references:{
-            model:Order,
-            key:'id'
-        }
     }
 })
 
@@ -40,8 +29,14 @@ orderItem.belongsTo(product,{
 })
 
 
+
 orderItem.sync().then(()=>{
     console.log("orderItem table created ")
 }).catch(err=>{
     console.log(err)
 });
+
+// User.hasMany(orderItem,{
+//     foreignKey:'userId',
+//     onDelete: 'CASCADE'
+// })

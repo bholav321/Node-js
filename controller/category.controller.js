@@ -27,3 +27,19 @@ export const addCategoryInBulk =async (req,res,next) =>{
         return res.status(500).json({message:"internal server error"})
     }
 }
+
+export const viewAllCategory = (req,res,next)=>{
+    Category.findAll().then(result=>{
+        return res.status(200).json({message:"Categories",categories:result});
+    }).catch(err=>{
+        return res.status(401).json({message:"Internal server error.."})
+    });
+}
+
+export const removeCategory = (req, res, next) => {
+    Category.destroy({ where: { categoryName: req.body.categoryName } }).then(result => {
+        return res.status(200).json({ message: "category removed successfully..."})
+    }).catch(err => {
+        return res.status(401).json({ message: "Something went wrong" })
+    });
+}
