@@ -1,13 +1,19 @@
+// order.model.js
 import { DataTypes } from "sequelize";
 import sequelize from "../Connection/db.js";
-import { orderItem } from "./orderItem.model.js";
 import { User } from "./user.model.js";
 import payment from "./payment.model.js";
+import { orderItem } from "./orderItem.model.js";
+
 export const Order = sequelize.define("Order",{
     id:{
         type:DataTypes.INTEGER,
         primaryKey:true,
         autoIncrement:true
+    },
+    orderId:{
+        type:DataTypes.STRING,
+        allowNull:false
     },
     firstName:{
         type:DataTypes.STRING,
@@ -55,12 +61,12 @@ export const Order = sequelize.define("Order",{
 Order.belongsTo(User,{ 
     foreignKey:'userId',
     onDelete:'CASCADE'
-})
+});
 
 payment.belongsTo(Order,{
     foreignKey:'orderId',
     onDelete: 'CASCADE'
-})
+});
 
 Order.sync().then(()=>{
     console.log("Order table created ")
@@ -68,5 +74,3 @@ Order.sync().then(()=>{
     console.log(err)
 });
 
-
-// Order.hasMany(orderItem);

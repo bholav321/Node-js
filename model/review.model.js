@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../Connection/db.js";
+import { User } from "./user.model.js";
+import { product } from "./product.model.js";
 
 const Review = sequelize.define("review",{
     id:{
@@ -8,10 +10,12 @@ const Review = sequelize.define("review",{
         autoIncrement:true
     },
     comment:{
+        allowNull:false,
         type:DataTypes.STRING(1024),
     },
     rating:{
-        type:DataTypes.INTEGER,
+        allowNull:false,
+        type:DataTypes.FLOAT,
     },
 })
 
@@ -21,4 +25,9 @@ Review.sync().then(()=>{
     console.log("error in review table "+err);
 });
 
+User.hasMany(Review, {  foreignKey: 'userId' });
+Review.belongsTo(User, {  foreignKey: 'userId' });
+
+
 export default Review;
+

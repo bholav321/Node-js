@@ -22,6 +22,7 @@ export const addCategoryInBulk =async (req,res,next) =>{
                 categoryName:category
             })
         }
+        return res.status(500).json({message:"add category"})
     }catch(err){
         console.log(err);
         return res.status(500).json({message:"internal server error"})

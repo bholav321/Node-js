@@ -5,6 +5,7 @@ import Cart from "./Cart.model.js";
 import { User } from "./user.model.js";
 import Wishlist from "./wishlist.model.js";
 import Review from "./review.model.js";
+import { orderItem } from "./orderItem.model.js";
 
 export const product = sequelize.define("product",{
     id:{
@@ -14,7 +15,7 @@ export const product = sequelize.define("product",{
     },
     title:{
         type:DataTypes.STRING(500),  
-        allowNull:false
+        allowNull:false,
     },
     description:{
         type:DataTypes.STRING(1000),
@@ -45,6 +46,7 @@ export const product = sequelize.define("product",{
     },
     thumbnail:{
         type:DataTypes.STRING,
+        unique:true
     },
     images:{
         type:DataTypes.STRING(2000)
@@ -77,3 +79,9 @@ product.belongsToMany(User,{through:Wishlist});
 
 User.belongsToMany(product,{through:Review});
 product.belongsToMany(User,{through:Review});
+
+orderItem.belongsTo(product, { foreignKey: 'productId' });
+product.hasMany(orderItem, { foreignKey: 'productId' });
+
+product.hasMany(Review, { foreignKey: 'productId' });
+Review.belongsTo(product, { foreignKey: 'productId' });

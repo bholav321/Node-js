@@ -44,7 +44,7 @@ export const addToCart = async (request,response,next)=>{
       const errors = validationResult(request);
       if(!errors.isEmpty())
         return response.status(401).json({error: "Bad request..."});
-      let {userId,productId} = request.body;
+      let {userId,productId,quantity} = request.body;
       // select * from cart where userId = 1
       let cart = await Cart.findOne({raw: true, where:{userId: userId*1}});
       if(cart){
@@ -52,8 +52,8 @@ export const addToCart = async (request,response,next)=>{
         if(isExists)
           return response.status(200).json({message: "Product is already added in cart"});
       
-        await cartItem.create({cartId: cart.id, productId},{transaction});
-        await transaction.commit();
+        await cartItem.create({cartId: cart.id, productId,quantity},{transaction});
+        await transaction.commit(); 
         return response.status(201).json({message: 'Product successfully added into cart'});   
       }
       else{
@@ -143,3 +143,21 @@ export const viewAllCartProducts = (req,res,next)=>{
         return res.status(401).json({message:"Internal server error..."})
     });
 }
+
+export const updateQty = async (req, res, next) => {
+    let { productId, quantity, userId } = req.body;
+    try {
+        const cart = await Cart.findOne({ where: { userId } });
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+        const updatedItems = await cartItem.update(
+            { quantity: quantity },
+            { where: { cartId: cart.id, productId: productId } }
+        );
+        return res.status(200).json({ message: "Quantity updated successfully", updatedItems });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};

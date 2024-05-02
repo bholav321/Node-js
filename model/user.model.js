@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../Connection/db.js";
 import bcrypt from 'bcryptjs';
 import Cart from "./Cart.model.js";
+import ContactUs from "./contactus.model.js";
 export const User = sequelize.define("user", {
     id: {
         type: DataTypes.INTEGER,
@@ -60,3 +61,12 @@ Cart.belongsTo(User, {
     onDelete: "CASCADE"
 });
 
+ContactUs.belongsTo(User,{ 
+    foreignKey:'userId',
+    onDelete:'CASCADE'
+});
+
+User.hasMany(ContactUs,{
+    foreignKey:'userId',
+    onDelete:'CASCADE'
+})

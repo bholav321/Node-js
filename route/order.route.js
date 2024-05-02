@@ -1,9 +1,11 @@
-import {  placedOrder, viewAllOrderList } from "../controller/order.controller.js";
+import {  buyNow, placedOrder, viewAllOrderList,viewParticularUserOrder } from "../controller/order.controller.js";
 import express from 'express';
 let route = express.Router();
 
 route.post("/placeOrder",placedOrder);
-// route.post("/findorderbyuserid",findorderbyuserid)
-route.get("/viewallorder",viewAllOrderList);
+route.post("/viewParticularUserOrder",viewParticularUserOrder)
+route.get("/viewAllOrders",viewAllOrderList);
+route.post("/buyNow",buyNow);
+
 
 export default route;
