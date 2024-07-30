@@ -25,7 +25,6 @@ export const signUp = (req, res, next) => {
     })
 }
 
-
 export const addUsers = (req, res, next) => {
     const users = req.body;
     let error = validationResult(req)
@@ -51,7 +50,6 @@ export const addUsers = (req, res, next) => {
 
 export const userList = (req, res, next) => {
     User.findAll({ raw: true }).then(result => {
-        console.log(result)
         return res.status(200).json({ users: result })
     }).catch(err => {
         console.log(err);
@@ -68,7 +66,6 @@ export const findByEmail = (req, res, next) => {
     });
 }
 
-
 export const removeUser = (req, res, next) => {
     User.destroy({ where: { email: req.body.email } }).then(result => {
         return res.status(200).json({ message: "user removed successfully...", user: result })
@@ -76,7 +73,6 @@ export const removeUser = (req, res, next) => {
         return res.status(401).json({ message: "Something went wrong" })
     });
 }
-
 
 export const updatePassword = async (req, res, next) => {
     try {
@@ -103,8 +99,28 @@ export const updatePassword = async (req, res, next) => {
     }
 };
 
-
-
+export const updateUser = async (req, res) => {
+    const { name, email, contact, userId } = req.body; // Get new values from request body
+    console.log(name,email,contact,userId);
+    try {
+      // Find the user by ID
+      const user = await User.findByPk(userId);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Update the user's details
+      await user.update({ name, email, contact });
+  
+      // Respond with the updated user details
+      res.status(200).json({ user });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'An error occurred while updating the user' });
+    }
+  };    
+  
 export const resetPassword = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -125,7 +141,6 @@ export const resetPassword = async (req, res, next) => {
         return res.status(500).json({ message: "Something went wrong" });
     }
 };
-
 
 export const signIn = async (req, res, next) => {
     let email = req.body.email;

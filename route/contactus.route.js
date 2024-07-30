@@ -1,8 +1,9 @@
 import express from 'express'
-import { addContact } from '../controller/contactus.controller.js';
+import { addContact, getContactUsData } from '../controller/contactus.controller.js';
 
 const route = express.Router();
 
 route.post('/addContact',addContact);
+route.get("/getContactUsData",getContactUsData)
 
 export default route

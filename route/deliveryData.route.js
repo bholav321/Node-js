@@ -1,8 +1,9 @@
 import express from 'express';
-import { orderDeliver } from '../controller/deliveryData.controller.js';
+import { deliveryBoyOrder, orderDeliver,orderDetail } from '../controller/deliveryData.controller.js';
 
 
 const router = express.Router();
-router.post("/orderDeliver",orderDeliver);
-
+router.post("/getOrder",orderDeliver);
+router.get("/orderDetails",orderDetail)
+router.post("/deliveryBoyOrder",deliveryBoyOrder)
 export default router

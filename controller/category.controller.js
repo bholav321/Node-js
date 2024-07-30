@@ -21,7 +21,7 @@ export const addCategoryInBulk =async (req,res,next) =>{
          await  Category.create({
                 categoryName:category
             })
-        }
+        }   
         return res.status(500).json({message:"add category"})
     }catch(err){
         console.log(err);
@@ -44,3 +44,19 @@ export const removeCategory = (req, res, next) => {
         return res.status(401).json({ message: "Something went wrong" })
     });
 }
+
+
+export const fewcategory = (req, res, next) => {
+    Category.findAll({
+        raw: true, // Return plain JSON objects instead of Sequelize instances
+        limit: 10,
+    })
+    .then(result => {
+        // const uniqueBrands = result.map(item => item.brand); // Extract unique brand names
+        return res.status(200).json({ message: "category", data: result });  
+    })
+    .catch(err => {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    });
+};

@@ -46,3 +46,22 @@ export const findRatingForParticularProduct = (req,res,next)=>{
         return res.status(400).json({ message: "Product did not find", error: err });
     });
 }
+
+export const getproductbyrating = async (req, res, next) => {
+    try {
+        const rating = req.body.rating;
+        const productsWithRating = await Review.findAll({
+            where: { rating: rating },
+            include: [{ model: product, attributes: ['id', 'title', 'description', 'price', 'discountPercentage', 'stock', 'brand', 'rating', 'categoryName', 'thumbnail', 'images'] }],
+            attributes: [] // Exclude review attributes
+        });
+
+        // Extract products from productsWithRating array
+        const transformedProducts = productsWithRating.map(productItem => productItem.product);
+
+        return res.status(200).json({ products: transformedProducts });
+    } catch (error) {
+        console.error('Error fetching products with rating 4:', error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+}

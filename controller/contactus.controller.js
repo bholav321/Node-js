@@ -13,3 +13,12 @@ export const addContact = (req, res, next) => {
             return res.status(401).json({ message: "kuchh glt h saveContact Information me..." })
         })
 }
+
+export const getContactUsData = (req, res, next) => {
+    ContactUs.findAll().then(result => {
+            return res.status(200).json({ message: "messsage get successfully...", admin: result })
+        }).catch(err => {
+            console.log(err)
+            return res.status(401).json({ message: "kuchh glt h saveContact Information me..." })
+        })
+}

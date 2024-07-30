@@ -18,7 +18,7 @@ export const product = sequelize.define("product",{
         allowNull:false,
     },
     description:{
-        type:DataTypes.STRING(1000),
+        type:DataTypes.STRING(5000),
         allowNull:false
     },
     price:{
@@ -46,7 +46,7 @@ export const product = sequelize.define("product",{
     },
     thumbnail:{
         type:DataTypes.STRING,
-        unique:true
+        // unique:true
     },
     images:{
         type:DataTypes.STRING(2000)

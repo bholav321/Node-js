@@ -5,7 +5,7 @@ import {
 } from "../controller/payment.controller.js";
 import { API } from "../config/config.js";
 
-const router = express.Router();
+const   router = express.Router();
 router.post("/checkout",checkout)
 router.post("/paymentverification",paymentVerification)
 router.get("/getkey",(req,res)=>{
